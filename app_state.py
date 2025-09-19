@@ -1,0 +1,11 @@
+model = None
+images_zip = None
+labels_zip = None
+file_names = []
+class_map = {}
+model_layers = {}
+last_detail_maps = None
+last_detail_index = -1
+resize_timer = None
+tk_grid_images = []
+tk_detail_image = None
