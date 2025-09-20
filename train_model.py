@@ -57,7 +57,7 @@ def train_model(dataset_path, batch_size, epochs, learning_rate, dropout, img_si
         for inputs, labels in train_loader:
             inputs, labels = inputs.to(device), labels.to(device)
             
-            # A saída agora é [batch_size, num_classes], sem o .squeeze()
+            # The output is now [batch_size, num_classes] without calling .squeeze()
             outputs = model(inputs)
             loss = criterion(outputs, labels)
             
@@ -67,8 +67,8 @@ def train_model(dataset_path, batch_size, epochs, learning_rate, dropout, img_si
 
             running_loss += loss.item() * inputs.size(0)
             
-            # MUDA A FORMA DE CALCULAR A PREDIÇÃO
-            # torch.max encontra o índice (a classe) com o maior valor
+            # CHANGE HOW PREDICTIONS ARE CALCULATED
+            # torch.max finds the index (the class) with the largest value
             _, predictions = torch.max(outputs, 1)
             
             correct += (predictions == labels).sum().item()
@@ -85,7 +85,7 @@ def train_model(dataset_path, batch_size, epochs, learning_rate, dropout, img_si
                 val_correct += (predictions == labels).sum().item()
                 val_total += labels.size(0)
 
-        # update matrics
+        # update metrics
         train_acc = 100 * correct / total
         val_acc = 100 * val_correct / val_total
         train_acc_list.append(train_acc)
@@ -98,7 +98,7 @@ def train_model(dataset_path, batch_size, epochs, learning_rate, dropout, img_si
         }
         epoch_bar.set_postfix(metrics)
 
-    # Lógica para salvar modelo e gráfico... (permanece similar)
+    # Logic for saving the model and plot remains similar
     # ...
     filename_base = os.path.join(dataset_path, f"Validation_{n_total}_imgs_{epochs}_epochs")
     model_path = f"{filename_base}.pth"

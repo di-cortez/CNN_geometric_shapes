@@ -1,4 +1,4 @@
-# Arquivo: dataset.py
+# File: dataset.py
 import torch
 import zipfile
 import io
@@ -29,5 +29,5 @@ class ShapeDataset(Dataset):
         label_content = self.labels_path.read(label_name).decode("utf-8")
         label = int(label_content.strip())
 
-        # A nova função de perda (CrossEntropyLoss) espera rótulos do tipo Long (inteiro)
+        # The new loss function (CrossEntropyLoss) expects labels as Long integers
         return image, torch.tensor(label, dtype=torch.long)

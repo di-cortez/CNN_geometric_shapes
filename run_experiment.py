@@ -16,7 +16,7 @@ IMAGE_SIZE = 28                # image size
 
 # for training the model
 NUM_CLASSES = 6     # number os different classes (rectangle, elipse, triangle, etc.)
-NUM_EPOCHS = 20
+NUM_EPOCHS = 40
 BATCH_SIZE = 64
 LEARNING_RATE = 0.001
 DROPOUT = 0.33
@@ -43,7 +43,7 @@ if __name__ == "__main__":
             print(f"model not found ({dataset_folder_path})")
             exit
         LEARNING_RATE = 0.0001
-        NUM_EPOCHS = 30
+        NUM_EPOCHS = 50
     else:
         print(f"NEW MODEL TRAINING")
     # dataset generation

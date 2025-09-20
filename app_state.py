@@ -9,3 +9,6 @@ last_detail_index = -1
 resize_timer = None
 tk_grid_images = []
 tk_detail_image = None
+selected_layer_name = None
+selected_filter_index = -1
+selected_kernel_channel = 0
