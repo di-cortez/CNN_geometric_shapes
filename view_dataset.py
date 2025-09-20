@@ -269,7 +269,7 @@ class Viewer(tk.Tk):
     # ---------------------------- drawing -------------------------------
 
     def _draw_grid(self, img: Image.Image, step_x: int, step_y: int) -> Image.Image:
-        # não desenha grid se não houver ampliação (evita tela preta)
+        # Do not draw the grid when there is no zoom (avoids a black screen)
         if step_x < 2 and step_y < 2:
             return img
         w, h = img.size
