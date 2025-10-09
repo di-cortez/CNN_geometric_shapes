@@ -2,16 +2,20 @@
 from __future__ import annotations
 
 from gui.controllers.dataset_controller import load_model_and_data, on_dataset_selected
-from gui.controllers.activation_controller import (
+from gui.controllers.main_controller import (
     populate_layer_selector,
     update_all_visuals,
     update_input_panel,
     update_activation_panels,
+)
+
+from gui.controllers.cnn_controller import (
     on_grid_click,
     update_activation_detail,
     update_kernel_panel,
     on_detail_canvas_resize,
 )
+
 from gui.controllers.navigation_controller import (
     enable_controls,
     on_canvas_configure,

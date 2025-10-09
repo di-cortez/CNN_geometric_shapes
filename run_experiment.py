@@ -12,11 +12,11 @@ from train_model import train_model
 
 # for Dataset
 NUM_IMAGES = 1_000             # images total created
-IMAGE_SIZE = 28                # image size
+IMAGE_SIZE = 40                # image size
 
 # for training the model
 NUM_CLASSES = 6     # number os different classes (rectangle, elipse, triangle, etc.)
-NUM_EPOCHS = 40
+NUM_EPOCHS = 28
 BATCH_SIZE = 64
 LEARNING_RATE = 0.001
 DROPOUT = 0.33

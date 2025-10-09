@@ -6,12 +6,14 @@ from tkinter import ttk
 
 from core.utils import find_datasets
 from gui.controllers.event_wiring import setup_callbacks
+from gui.controllers.dataset_controller import on_dataset_selected
 from gui.state import UIState
 from gui.views.top_bar import TopBar
 from gui.views.panels.input_panel import InputPanel
 from gui.views.panels.activation_panel import ActivationPanel
 from gui.views.panels.kernel_panel import KernelPanel
 from gui.views.panels.detail_panel import DetailPanel
+from gui.views.panels.fc_view_panel import FCViewPanel
 
 
 class Application(ttk.Frame):
@@ -27,6 +29,8 @@ class Application(ttk.Frame):
         self._init_variables()
         self._create_widgets()
         setup_callbacks(self)
+
+        self._auto_load_first_dataset()
 
     def _init_variables(self) -> None:
         self.index_var = tk.StringVar(value="0")
@@ -70,32 +74,32 @@ class Application(ttk.Frame):
         )
         self.input_panel.grid(row=0, column=0, sticky="nsew", padx=(0, 5))
 
-        center_container = ttk.Frame(main_frame)
-        center_container.grid(row=0, column=1, sticky="nsew", padx=5)
-        center_container.rowconfigure(0, weight=50)
-        center_container.rowconfigure(1, weight=50)
-        center_container.columnconfigure(0, weight=1)
+        self.center_container = ttk.Frame(main_frame)
+        self.center_container.grid(row=0, column=1, sticky="nsew", padx=5)
+        self.center_container.rowconfigure(0, weight=50)
+        self.center_container.rowconfigure(1, weight=50)
+        self.center_container.columnconfigure(0, weight=1)
 
-        self.activation_panel = ActivationPanel(center_container)
+        self.activation_panel = ActivationPanel(self.center_container)
         self.activation_panel.grid(row=0, column=0, sticky="nsew", pady=(0, 5))
 
-        self.kernel_panel = KernelPanel(center_container)
+        self.kernel_panel = KernelPanel(self.center_container)
         self.kernel_panel.grid(row=1, column=0, sticky="nsew")
 
-        right_container = ttk.Frame(main_frame)
-        right_container.grid(row=0, column=2, sticky="nsew", padx=(5, 0))
-        right_container.rowconfigure(0, weight=1)
-        right_container.columnconfigure(0, weight=1)
+        self.right_container = ttk.Frame(main_frame)
+        self.right_container.grid(row=0, column=2, sticky="nsew", padx=(5, 0))
+        self.right_container.rowconfigure(0, weight=1)
+        self.right_container.columnconfigure(0, weight=1)
 
         self.detail_panel = DetailPanel(
-            right_container,
+            self.right_container,
             show_grid_var=self.show_detail_grid_var,
             stats_var=self.stats_var,
         )
         self.detail_panel.grid(row=0, column=0, sticky="nsew")
 
-        status_bar = ttk.Label(self, textvariable=self.status_var, relief="sunken", anchor="w", padding=5)
-        status_bar.pack(side="bottom", fill="x")
+
+        self.fc_panel = FCViewPanel(main_frame)
 
         # Attribute aliases expected by controller functions
         self.image_canvas = self.input_panel.image_canvas
@@ -109,6 +113,24 @@ class Application(ttk.Frame):
         self.prev_button = self.input_panel.prev_button
         self.next_button = self.input_panel.next_button
         self.index_entry = self.input_panel.index_entry
+
+    def _auto_load_first_dataset(self) -> None:
+        """Checks for datasets and loads the first one found."""
+        available_datasets = self.dataset_selector["values"]
+        if available_datasets:
+            self.dataset_selector.set(available_datasets[0])
+            self.after(100, lambda: on_dataset_selected(self))
+
+    def switch_view(self, view_type: str):
+        """Switches between 'CNN' and 'FC' visualization views."""
+        if view_type == "CNN":
+            self.fc_panel.grid_remove()
+            self.center_container.grid()
+            self.right_container.grid()
+        elif view_type == "FC":
+            self.center_container.grid_remove()
+            self.right_container.grid_remove()
+            self.fc_panel.grid(row=0, column=1, columnspan=2, sticky="nsew", padx=5)
 
 
 __all__ = ["Application"]

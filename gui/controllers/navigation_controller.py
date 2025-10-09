@@ -1,7 +1,7 @@
 """Navigation-related callbacks for dataset browsing."""
 from __future__ import annotations
 
-from gui.controllers import activation_controller
+from gui.controllers import main_controller
 
 
 def show_previous_image(app) -> None:
@@ -10,7 +10,7 @@ def show_previous_image(app) -> None:
     except ValueError:
         current = 0
     app.index_var.set(str(max(0, current - 1)))
-    activation_controller.update_all_visuals(app)
+    main_controller.update_all_visuals(app)
 
 
 def show_next_image(app) -> None:
@@ -19,7 +19,7 @@ def show_next_image(app) -> None:
     except ValueError:
         current = 0
     app.index_var.set(str(current + 1))
-    activation_controller.update_all_visuals(app)
+    main_controller.update_all_visuals(app)
 
 
 def enable_controls(app, is_enabled: bool) -> None:

@@ -6,7 +6,7 @@ from tkinter import messagebox
 
 from core.utils import find_models_in_dataset, load_class_map
 from gui.services import dataset_service, model_loader
-from gui.controllers import activation_controller
+from gui.controllers import main_controller
 from gui.controllers.navigation_controller import enable_controls
 
 
@@ -66,10 +66,10 @@ def load_model_and_data(app) -> None:
         state.last_detail_maps = None
         state.last_detail_index = -1
 
-        activation_controller.populate_layer_selector(app)
+        main_controller.populate_layer_selector(app)
         app.status_var.set(f"Model '{os.path.basename(model_path)}' loaded. Ready to explore.")
         enable_controls(app, True)
-        activation_controller.update_all_visuals(app)
+        main_controller.update_all_visuals(app)
     except Exception as exc:  # pylint: disable=broad-except
         messagebox.showerror("Loading Error", f"An error occurred: {exc}")
         enable_controls(app, False)

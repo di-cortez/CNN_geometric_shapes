@@ -3,17 +3,23 @@ from __future__ import annotations
 
 import glob
 import os
-from typing import Dict, List
+from typing import Dict, List, Set
 
 
 def find_datasets(base_path: str = ".") -> List[str]:
     """Return dataset directories under ``base_path`` (non-hidden, non-files)."""
-    entries = []
-    for name in os.listdir(base_path):
-        full_path = os.path.join(base_path, name)
-        if os.path.isdir(full_path) and not name.startswith('.'):
-            entries.append(name)
-    return sorted(entries)
+    excluded_dirs: Set[str] = {'gui', 'core', '__pycache__', '.git', '.venv'}
+    dataset_dirs = []
+    try:
+        for entry in os.scandir(base_path):
+            if (entry.is_dir() and 
+                entry.name not in excluded_dirs):
+                dataset_dirs.append(entry.name)
+                
+    except FileNotFoundError:
+        return []
+        
+    return sorted(dataset_dirs)
 
 
 def find_models_in_dataset(dataset_path: str) -> List[str]:
